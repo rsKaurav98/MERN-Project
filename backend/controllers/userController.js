@@ -32,7 +32,7 @@ exports.loginUser = catchAsyncErrors(async (req,res,next)=>{
  const {email,password} =  req.body;
 
 
- //chekcing if User has given email and password both
+ //checking if User has given email and password both
 
  if(!email || !password){
      return next(new ErrorHandler("Please Enter Email & Password",400))
@@ -146,7 +146,7 @@ sendToken(user , 200 , res);
 });
 
 
-//Get User Datails
+//Get User Details
 exports.getUserDetails = catchAsyncErrors(async(req,res,next)=>{
     const user = await User.findById(req.user.id);
 
@@ -175,6 +175,10 @@ exports.updatePassword = catchAsyncErrors(async(req,res,next)=>{
 
    sendToken(user,200,res);
 })
+
+
+///Updating ser profile
+
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
     const { name, email } = req.body;
 
@@ -191,7 +195,8 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
         email,
     };
 
-    // Update user profile
+    //We will add cloudinary later 
+    
     const user = await User.findByIdAndUpdate(
         req.user.id,
         newUserData,

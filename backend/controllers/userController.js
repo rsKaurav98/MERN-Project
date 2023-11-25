@@ -7,22 +7,33 @@ const crypto = require("crypto");
 
 
 
-//Registration for User 
+// Registration for User
+exports.registerUser = catchAsyncErrors(async (req, res, next) => {
+    const { name, email, password } = req.body;
 
+    // Check if the user already exists with the provided email
+    const existingUser = await User.findOne({ email });
 
-exports.rergisterUser= catchAsyncErrors(async(req,res,next)=>{
+    if (existingUser) {
+        return res.status(400).json({
+            success: false,
+            message: 'This email is already registered.',
+        });
+    }
 
-    const {name,email,password}= req.body;
-
+    // Create a new user if the email is not already registered
     const user = await User.create({
-        name,email,password,
-        avatar:{
-            public_id:"this is a sample Id ",
-            url:"profilepicurl"
-        }
+        name,
+        email,
+        password,
+        avatar: {
+            public_id: 'this is a sample Id',
+            url: 'profilepicurl',
+        },
     });
 
-    sendToken(user,201,res);
+    // Send token and response
+    sendToken(user, 201, res);
 });
 
 //Login User 

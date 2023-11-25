@@ -177,7 +177,7 @@ exports.updatePassword = catchAsyncErrors(async(req,res,next)=>{
 })
 
 
-///Updating ser profile
+///Updating User profile
 
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
     const { name, email } = req.body;
@@ -196,7 +196,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
     };
 
     //We will add cloudinary later 
-    
+
     const user = await User.findByIdAndUpdate(
         req.user.id,
         newUserData,
@@ -207,8 +207,103 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
         }
     );
 
+    if(!user){
+        return next(new ErrorHandler("User not Found",404));
+
+    }
+
     res.status(200).json({
         success: true,
         
     });
 });
+
+
+// Get all users(Admin)
+
+exports.getAllUser = catchAsyncErrors(async (req,res,next)=>{
+    const users = await User.find();
+
+    res.status(200).json({
+        success: true,
+        users,
+    });
+});
+
+//Get single User  (admin)
+exports.getSingleUser =catchAsyncErrors(async (req,res,next)=>{
+    const user = await User.findById(req.params.id);
+
+    if(!user){
+        return next(new ErrorHandler(`User does not exists with id:${req.params.id}`,404))
+    }
+
+    res.status(200).json({
+        success:true,
+        user,
+    });
+});
+
+
+//Update User Role --Admin 
+exports.updateUserRole = catchAsyncErrors(async (req, res, next) => {
+    const { name, email, role } = req.body;
+
+    // Check if all required fields are provided
+    if (!name || !email || !role) {
+        return res.status(400).json({
+            success: false,
+            message: 'Please provide name, email, and role to update.',
+        });
+    }
+
+    const newUserData = {
+        name,
+        email,
+        role,
+    };
+
+    // Update user data in the database
+    const user = await User.findByIdAndUpdate(
+        req.params.id,
+        newUserData,
+        {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false,
+        }
+    );
+
+    if(!user){
+        return next(new ErrorHandler("User not Found",404));
+
+    }
+
+    res.status(200).json({
+        success: true,
+        data: user,
+    });
+});
+
+
+//Delete User --Admin 
+
+exports.deleteUser = catchAsyncErrors(async(req,res,next)=>{
+
+    const user = await User.findById(req.params.id);
+
+    //We will Remove cloudinary later
+
+    if(!user){
+        return next(new ErrorHandler("User not Found",404));
+
+    }
+
+    await user.deleteOne();
+
+    res.status(200).json({
+        success:true,
+        message:"User Deleted",
+    });
+});
+

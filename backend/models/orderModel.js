@@ -4,19 +4,19 @@ const orderSchema = new mongoose.Schema({
     shippingInfo:{
         address:{
             type:String,
-            required
+            required:true
         },
         city:{
             type:String,
-            required
+            required:true
         },
         state:{
             type:String,
-            required
+            required:true
         },
         country:{
             type:String,
-            required
+            required:true
         },
 
         pinCode:{
@@ -58,7 +58,7 @@ const orderSchema = new mongoose.Schema({
         ref:"User",
         required:true,
     },
-    payment:{
+    paymentInfo:{
         id:{
             type:String,
             required:true,

@@ -34,3 +34,38 @@ exports.newOrder = catchAsyncErrors (async(req,res,next)=>{
         order,
       });
 });
+
+
+//Get SIngle Order 
+
+exports.getSingleOrder = catchAsyncErrors(async (req,res,next)=>{
+
+  const order = await Order.findById(req.params.id).populate("user","name email");
+
+if(!order){
+  return next(new ErrorHandler("Order not found with this Id ", 404));
+}
+
+res.status(200).json({
+  success:true,
+  order,
+ });
+
+});
+
+//Get Order for Logged in User  
+
+exports.myOrders = catchAsyncErrors(async (req,res,next)=>{
+
+  const orders = await Order.find({user:req.user._id});
+
+if(!orders){
+  return next(new ErrorHandler("Order not found with this Id ", 404));
+}
+
+res.status(200).json({
+  success:true,
+  orders,
+ });
+
+});

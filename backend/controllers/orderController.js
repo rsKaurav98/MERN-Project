@@ -53,7 +53,7 @@ res.status(200).json({
 
 });
 
-//Get Order for Logged in User  
+//Get Orders for Logged in User  
 
 exports.myOrders = catchAsyncErrors(async (req,res,next)=>{
 
@@ -69,3 +69,73 @@ res.status(200).json({
  });
 
 });
+
+
+
+//Get all Orders received --Admin 
+
+exports.getAllOrders = catchAsyncErrors(async (req, res, next )=>{
+  const orders = await Order.find();
+
+  let totalAmount=0;
+
+  orders.forEach(order=>{
+    totalAmount += order.totalPrice;
+  });
+
+  res.status(200).json({
+    success:true,
+    totalAmount,
+    orders,
+  });
+});
+
+//Update Order status---Admin 
+
+exports.updateOrder = catchAsyncErrors(async (req,res,next)=>{
+  const order = await Order.find(req.params.id);
+
+  if(order.orderStatus ==="Delivered"){
+    return next(new ErrorHandler("Order already delivered",400));
+}
+
+order.orderItems.forEach(async (order)=>{
+  await updateStock(order.product, order.quantity);
+});
+
+order.orderStatus = req.body.status;
+if(req.body.status === "Delivered"){
+  order.deliveredAt = Date.now();
+}
+
+await order.save({validateBeforeSave: false});
+res.status(200).json({
+  success:true,
+});
+
+});
+
+//Update stock function 
+async function updateStock(id,quantity){
+ const product = await Product.findById(id);
+ product.stock -=quantity;
+
+ await product.save({validateBeforeSave:false})
+}
+
+
+//Delete Order -- Admin 
+
+exports.deleteOrder = catchAsyncErrors(async(req,res,next)=>{
+  const order = await Order.find(req.params.id);
+
+  if(!order){
+    return next(new ErrorHandler("Order not found with this id ",404));
+  }
+  
+  await order.deleteOne();
+
+  res.status(200).json({
+    success :true,
+  })
+})

@@ -13,7 +13,7 @@ exports.newOrder = catchAsyncErrors (async(req,res,next)=>{
         itemsPrice,
         taxPrice,
         shippingPrice,
-        totalPrice}
+        totalPrice,}
       = req.body;
 
       const order = await Order.create({
@@ -93,11 +93,16 @@ exports.getAllOrders = catchAsyncErrors(async (req, res, next )=>{
 //Update Order status---Admin 
 
 exports.updateOrder = catchAsyncErrors(async (req,res,next)=>{
-  const order = await Order.find(req.params.id);
+  const order = await Order.findById(req.params.id);
 
-  if(order.orderStatus ==="Delivered"){
+  
+
+
+  if(order.orderStatus.toLowerCase() ==="delivered"){
     return next(new ErrorHandler("Order already delivered",400));
 }
+
+
 
 order.orderItems.forEach(async (order)=>{
   await updateStock(order.product, order.quantity);
@@ -118,7 +123,7 @@ res.status(200).json({
 //Update stock function 
 async function updateStock(id,quantity){
  const product = await Product.findById(id);
- product.stock -=quantity;
+ product.Stock -=quantity;
 
  await product.save({validateBeforeSave:false})
 }
@@ -127,7 +132,7 @@ async function updateStock(id,quantity){
 //Delete Order -- Admin 
 
 exports.deleteOrder = catchAsyncErrors(async(req,res,next)=>{
-  const order = await Order.find(req.params.id);
+  const order = await Order.findById(req.params.id);
 
   if(!order){
     return next(new ErrorHandler("Order not found with this id ",404));

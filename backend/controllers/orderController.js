@@ -95,7 +95,9 @@ exports.getAllOrders = catchAsyncErrors(async (req, res, next )=>{
 exports.updateOrder = catchAsyncErrors(async (req,res,next)=>{
   const order = await Order.findById(req.params.id);
 
-  
+  if(!order){
+    return next(new ErrorHandler("Order not found with this id ",404));
+  }
 
 
   if(order.orderStatus.toLowerCase() ==="delivered"){
@@ -116,6 +118,8 @@ if(req.body.status === "Delivered"){
 await order.save({validateBeforeSave: false});
 res.status(200).json({
   success:true,
+  message:"Order Status Updated",
+
 });
 
 });
@@ -123,7 +127,7 @@ res.status(200).json({
 //Update stock function 
 async function updateStock(id,quantity){
  const product = await Product.findById(id);
- product.Stock -=quantity;
+ product.stock -=quantity;
 
  await product.save({validateBeforeSave:false})
 }
@@ -142,5 +146,6 @@ exports.deleteOrder = catchAsyncErrors(async(req,res,next)=>{
 
   res.status(200).json({
     success :true,
+    message:"Order Deleted",
   })
 })

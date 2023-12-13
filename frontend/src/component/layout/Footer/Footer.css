@@ -37,7 +37,7 @@ footer{
 .midFooter > h1 {
     font-family: "Roboto";
     font-size: 4vmax;
-    color:crimson;
+    color:rgb(199, 253, 5);
     cursor: pointer;
 }
 
@@ -70,3 +70,4 @@ footer{
 .rightFooter > a:hover{
     color: #eb4034 ;
 }
+

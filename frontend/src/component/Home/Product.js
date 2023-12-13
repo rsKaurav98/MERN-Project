@@ -8,6 +8,7 @@ const options = {
     edit : false,
     color:"rgba(20,20,20,0.1)",
     activeColor:"tomato",
+    size:window.innerWidth <600 ? 18:22,
     value:2.5,
     isHalf:true,
 };
@@ -16,11 +17,11 @@ const Product = ({product}) => {
    <Link className='productCard' to={product._id}>
      <img src={product.images[0].url} alt={product.name}/>
      <p>{product.name}</p>
-     
      <div>
-        <ReactStars {...options}/><span>(565 Reviews)</span>
+        <ReactStars {...options}/>
+        <span>(565 Reviews)</span>
      </div>
-     <p>{product.price}</p>
+     <span>{product.price}</span>
 
    </Link>
   )

@@ -1,25 +1,25 @@
 import React from 'react'
-import playStore from "../images/playstore.png"
-import appStore from "../images/Appstore.png"
+import playStore from "../../../images/playstore.png"
+import appStore from "../../../images/Appstore.png"
 import "./Footer.css"
 
 const Footer = () => {
   return (
     <footer id='footer'>
 
-      <div class="leftFooter">
+      <div className="leftFooter">
         <h4>DOWNLOAD OUR APP</h4>
         <p>Download App for Android and IOS mobile phone</p>
         <img src={playStore} alt='playstore'/>
         <img src={appStore} alt= "Appstore"/>
       </div>
-      <div class="midFooter">
+      <div className="midFooter">
         <h1>S.K.S</h1>
         <p>Hight Quality is our first priority</p>
 
         <p>Copyrights 2024 &copy;Sainik Kirana Stores</p>
       </div>
-      <div class="rightFooter">
+      <div className="rightFooter">
         <h4>Follow Us</h4>
         <a href='/'>Instagram</a>
         <a href='/'>Youtube</a>

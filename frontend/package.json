@@ -20,7 +20,7 @@
     "react-scripts": "5.0.1",
     "redux": "^5.0.0",
     "redux-devtools-extension": "^2.13.9",
-    "redux-thunk": "^3.1.0",
+    "redux-thunk": "^2.3.0",
     "web-vitals": "^2.1.4",
     "webfontloader": "^1.6.28"
   },
@@ -47,5 +47,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy" : "http://192.168.56.1:4000"
 }

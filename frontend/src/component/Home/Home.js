@@ -5,17 +5,26 @@ import Product from './Product';
 import MetaData from '../layout/MetaData';
 import {getProduct} from "../../actions/productAction";
 import {useSelector , useDispatch} from "react-redux";
+import Loader from '../layout/Loader/Loader';
+import { useAlert } from 'react-alert';
 
 const Home = () => {
 
+const alert = useAlert();
 const dispatch = useDispatch();
 const {loading,error,products,productsCount} = useSelector(state=>state.products)
 
 useEffect(()=>{
-  dispatch(getProduct());
-},[dispatch]);
 
-  return <Fragment>
+  if(error){
+    return alert.error(error)
+  }
+  dispatch(getProduct());
+},[dispatch,error]);
+
+  return( 
+ <Fragment>
+  {loading ? (<Loader/>):( <Fragment>
     <MetaData title="S.K.S."/>
 
 <div className='banner'>
@@ -33,6 +42,9 @@ useEffect(()=>{
    
 </div>
   </Fragment>
-}
+  )}
+ </Fragment>
+  );
+};
 
 export default Home

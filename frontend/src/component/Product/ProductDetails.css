@@ -1,0 +1,29 @@
+/* ProductDetails.css */
+
+.ProductDetails {
+    display: flex;
+    width: 100vw;
+    max-width: 100%;
+    padding: 6vmax;
+    box-sizing: border-box;
+    
+  }
+  
+  .photos {
+    flex: 1;
+    margin-right: 20px; 
+  }
+  
+  .CarouselImage {
+    width: 100%;
+    height: auto;
+    
+  }
+  
+  .Details {
+    flex: 1;
+    
+  }
+  
+ 
+  

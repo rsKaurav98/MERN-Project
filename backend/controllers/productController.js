@@ -42,6 +42,7 @@ exports.getAllProducts = catchAsyncErrors(async (req,res,next)=>{
 
 //Get Product details 
 exports.getProductDetails = catchAsyncErrors(async (req,res,next)=>{
+   
 
     const product =await Product.findById(req.params.id);
     if(!product){
@@ -51,7 +52,7 @@ exports.getProductDetails = catchAsyncErrors(async (req,res,next)=>{
     res.status(200).json({
         success:true,
         product,
-        productCount
+      
     })
 });
 

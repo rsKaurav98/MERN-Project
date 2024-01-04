@@ -6,6 +6,7 @@ import Footer from "./component/layout/Footer/Footer";
 import WebFont from "webfontloader";
 import Home from "./component/Home/Home";
 import ProductDetails from "./component/Product/ProductDetails";
+import Products from "./component/Product/Product.js"
 
 
 
@@ -23,6 +24,7 @@ function App() {
       <Routes>
       <Route exact path="/" Component={Home}/>
       <Route exact path="/product/:id" Component={ProductDetails}/>
+      <Route exact path ="/products" Component={Products}/>
         
        
       </Routes>
